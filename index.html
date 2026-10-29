@@ -1,0 +1,657 @@
+<title>Portadas del Oráculo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;600;700&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+/* Concepto: mesa de trabajo luminosa. Vista previa fija a la izquierda, controles a la derecha; en móvil, vista arriba y controles debajo. */
+:root{
+  --bg:#f5f0e6;
+  --surface:#fffdf8;
+  --ink:#2a2150;
+  --ink-soft:#554c7d;
+  --gold:#8a5f10;
+  --gold-line:#d2ad58;
+  --gold-fill:#f3e3b5;
+  --line:#e4d8bb;
+  --ok:#17653f;
+  --warn:#8f4300;
+  --font-display:"Marcellus","Times New Roman",serif;
+  --font-body:"Albert Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  background-image:radial-gradient(1200px 500px at 85% -10%,#efe2c0 0%,transparent 60%),radial-gradient(900px 500px at -10% 10%,#e6e0f3 0%,transparent 60%);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.5;
+  margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:20px 56px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:flex;flex-direction:column;gap:6px;margin-bottom:22px}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,44px);line-height:1.1;margin:0;text-wrap:balance}
+.sub{margin:0;color:var(--ink-soft);max-width:60ch;font-size:18px}
+.rule{height:2px;width:120px;background:linear-gradient(90deg,var(--gold-line),transparent);margin-top:8px}
+h2{font-family:var(--font-display);font-weight:400;font-size:24px;margin:0 0 14px;line-height:1.2}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+@media (min-width:900px){
+  .layout{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:32px;align-items:start}
+  .preview{position:sticky;top:16px}
+}
+.panel{background:var(--surface);border:1.5px solid var(--line);border-radius:22px;padding:20px;min-width:0}
+.panel+.panel{margin-top:16px}
+.stage{background:#ece6f4;background-image:linear-gradient(45deg,#e4ddef 25%,transparent 25%,transparent 75%,#e4ddef 75%),linear-gradient(45deg,#e4ddef 25%,transparent 25%,transparent 75%,#e4ddef 75%);background-size:24px 24px;background-position:0 0,12px 12px;border-radius:16px;padding:16px;display:flex;justify-content:center}
+.stage canvas{display:block;width:min(100%,360px);height:auto;border-radius:6px;box-shadow:0 10px 30px rgba(42,33,80,.25)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab,.chip,.btn{font-family:inherit;font-size:16px;cursor:pointer;min-height:44px;border-radius:999px;border:1.5px solid var(--gold-line);background:var(--surface);color:var(--ink);padding:8px 16px;font-weight:600}
+.tab[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--ink);color:#fff8e8;border-color:var(--ink)}
+.tab:focus-visible,.chip:focus-visible,.btn:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #6a54d6;outline-offset:2px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}
+.btn.primary{background:var(--ink);color:#fff8e8;border-color:var(--ink);font-size:18px;padding:12px 22px;width:100%}
+.btn.ghost{background:transparent}
+.btn[disabled]{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 200px;min-width:0}
+label,.lab{display:block;font-weight:700;font-size:16px;margin:16px 0 4px}
+.hint{color:var(--ink-soft);font-size:15px;margin:2px 0 0}
+input[type=text],input[type=date]{width:100%;min-height:46px;font:inherit;font-size:17px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px}
+input[type=range]{width:100%;height:44px;accent-color:var(--ink)}
+input[type=color]{width:56px;height:44px;border:1.5px solid var(--line);border-radius:10px;background:#fff;padding:2px}
+.sliderhead{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.sliderhead output{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:700}
+.status{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:10px 14px;margin-top:14px;font-weight:600;font-size:16px;border:1.5px solid}
+.status.ok{color:var(--ok);background:#e9f6ee;border-color:#9fd3b4}
+.status.warn{color:var(--warn);background:#fff1df;border-color:#e8bb86}
+.queue{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.thumb{position:relative;width:64px;height:112px;border-radius:10px;overflow:hidden;border:3px solid transparent;padding:0;background:#ddd;cursor:pointer}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb[aria-pressed="true"]{border-color:var(--ink)}
+.thumb:focus-visible{outline:3px solid #6a54d6;outline-offset:2px}
+.xbtn{position:absolute;top:2px;right:2px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(42,33,80,.85);color:#fff;font-size:16px;line-height:26px;padding:0;cursor:pointer}
+.fileline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filebtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 20px;border-radius:999px;background:var(--gold-fill);border:1.5px solid var(--gold-line);font-weight:700;cursor:pointer}
+.filebtn input{position:absolute;opacity:0;width:1px;height:1px}
+.filebtn:focus-within{outline:3px solid #6a54d6;outline-offset:2px}
+.msg{min-height:24px;color:var(--ink-soft);font-size:16px;margin:10px 0 0}
+/* mock perfil */
+.phone{background:#fff;border-radius:18px;width:min(100%,360px);overflow:hidden;box-shadow:0 10px 30px rgba(42,33,80,.25)}
+.phead{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #eee}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#f3d98f;display:grid;place-items:center;font-family:var(--font-display);font-size:18px;flex:none}
+.pname{font-weight:700;font-size:15px;color:#222}
+.psub{font-size:13px;color:#666}
+.gridbox{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#fff}
+.tile{aspect-ratio:3/4;background:#f1f0f4;overflow:hidden;position:relative}
+.tile canvas,.tile img{width:100%;height:100%;object-fit:cover;display:block}
+.tile.empty{display:grid;place-items:center;font-size:11px;color:#999;border:1px dashed #d8d4e2;background:#faf9fc}
+.post{background:#fff;border-radius:18px;width:min(100%,360px);overflow:hidden;box-shadow:0 10px 30px rgba(42,33,80,.25)}
+.post canvas{width:100%;height:auto;aspect-ratio:4/5;display:block}
+.icons{display:flex;gap:16px;padding:10px 14px;color:#222}
+.cap{padding:0 14px 14px;font-size:14px;color:#222}
+.fallback img{max-width:min(100%,380px);height:auto;border-radius:10px;display:block;margin:12px auto;border:1px solid var(--line)}
+details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Portadas del Oráculo</h1>
+    <p class="sub">Sube una carta, elige la baraja y descarga una portada de 1080×1920 que se ve bien en tu perfil de Instagram, en el feed y en los Reels.</p>
+    <div class="rule" aria-hidden="true"></div>
+  </header>
+
+  <div class="layout">
+    <section class="preview" aria-label="Vista previa">
+      <div class="panel">
+        <div class="tabs" role="group" aria-label="Tipo de vista">
+          <button class="tab" data-view="full" aria-pressed="true">Portada completa</button>
+          <button class="tab" data-view="grid" aria-pressed="false">Perfil</button>
+          <button class="tab" data-view="feed" aria-pressed="false">Feed</button>
+        </div>
+        <div class="stage" id="stageFull"><canvas id="cvFull" width="540" height="960" aria-label="Portada completa 9:16"></canvas></div>
+        <div class="stage" id="stageGrid" hidden>
+          <div class="phone">
+            <div class="phead"><div class="avatar">DE</div><div><div class="pname">dharmaeterno</div><div class="psub">Perfil de prueba</div></div></div>
+            <div class="gridbox" id="gridBox"></div>
+          </div>
+        </div>
+        <div class="stage" id="stageFeed" hidden>
+          <div class="post">
+            <div class="phead"><div class="avatar">DE</div><div><div class="pname">dharmaeterno</div></div></div>
+            <canvas id="cvFeed" width="540" height="675" aria-label="Vista en el feed 4:5"></canvas>
+            <div class="icons" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.3-9.1C1 8.5 3 5 6.5 5c2 0 3.4 1.1 4.2 2.4h.6C12.1 6.1 13.5 5 15.5 5 19 5 21 8.5 21.3 11.9 19 16.4 12 21 12 21z"/></svg>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.1A8 8 0 1 1 21 12z"/></svg>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 3 2 10.5l7.5 3L12.5 21 22 3z"/></svg>
+            </div>
+            <div class="cap"><b>dharmaeterno</b> Un mensaje para ti hoy.</div>
+          </div>
+        </div>
+        <div class="status ok" id="status" role="status"><span id="statusIcon" aria-hidden="true">✓</span><span id="statusText"></span></div>
+        <div class="row" style="margin-top:14px">
+          <label class="lab" style="margin:0;display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600"><input type="checkbox" id="zones" style="width:22px;height:22px;accent-color:var(--ink)"> Mostrar zonas seguras</label>
+        </div>
+        <p class="hint" id="viewHint"></p>
+      </div>
+    </section>
+
+    <section aria-label="Ajustes">
+      <div class="panel">
+        <h2>Tus cartas</h2>
+        <div class="fileline">
+          <label class="filebtn">Subir cartas<input type="file" id="files" accept="image/*" multiple></label>
+          <span class="hint" style="margin:0">Puedes elegir varias a la vez.</span>
+        </div>
+        <div class="queue" id="queue" role="group" aria-label="Cartas cargadas"></div>
+        <p class="hint" id="queueHint"></p>
+      </div>
+
+      <div class="panel">
+        <h2>Título</h2>
+        <div class="lab" style="margin-top:0">Distribución</div>
+        <div class="chips" id="modeChips" role="group" aria-label="Distribución">
+          <button class="chip" data-mode="stack" aria-pressed="true">Título arriba, carta debajo</button>
+          <button class="chip" data-mode="overlay" aria-pressed="false">Título sobre la carta</button>
+          <button class="chip" data-mode="only" aria-pressed="false">Solo la carta</button>
+        </div>
+
+        <div id="titleFields">
+          <label for="label">Frase fija de cada día</label>
+          <input type="text" id="label" maxlength="48">
+          <div class="chips" id="labelChips"></div>
+
+          <label for="deck">Baraja</label>
+          <input type="text" id="deck" maxlength="48">
+          <div class="chips" id="deckChips"></div>
+          <label for="accent">Color de esta baraja</label>
+          <div class="fileline"><input type="color" id="accent" value="#c9a24a"><button class="btn ghost" id="accentReset" type="button">Restablecer color</button></div>
+          <p class="hint">Se aplica al borde del recuadro, al adorno, al nombre de la baraja y al marco de la carta. Cada baraja tiene el suyo y lo recuerda.</p>
+
+          <div class="lab">Tercera línea</div>
+          <div class="chips" id="thirdChips" role="group" aria-label="Tercera línea">
+            <button class="chip" data-third="text" aria-pressed="true">Texto propio</button>
+            <button class="chip" data-third="none" aria-pressed="false">Ninguna</button>
+          </div>
+          <div class="lab">Dónde va la fecha o el texto</div>
+          <div class="chips" id="posChips" role="group" aria-label="Posición de la tercera línea">
+            <button class="chip" data-pos="bottom" aria-pressed="true">Recuadro propio abajo</button>
+            <button class="chip" data-pos="top" aria-pressed="false">Dentro del recuadro de arriba</button>
+          </div>
+          <div class="lab">Altura del recuadro de abajo</div>
+          <div class="chips" id="lowChips" role="group" aria-label="Altura del recuadro de abajo">
+            <button class="chip" data-low="0" aria-pressed="true">Dentro de la zona visible</button>
+            <button class="chip" data-low="1" aria-pressed="false">Debajo, fuera del perfil</button>
+          </div>
+          <p class="hint">"Debajo" lo baja a la franja roja: se ve en el vídeo y en la portada completa, pero se recorta en el perfil y en el feed, y la carta gana espacio. Actívalo con "Mostrar zonas" para verlo marcado. El recuadro de abajo solo aparece con "Título arriba, carta debajo" o "Título sobre la carta".</p>
+          <div id="dateBox">
+            <label for="date">Fecha de la carta</label>
+            <input type="date" id="date">
+            <label class="lab" style="display:flex;align-items:center;gap:10px;font-weight:600;min-height:44px" id="consecRow" hidden><input type="checkbox" id="consec" style="width:22px;height:22px;accent-color:var(--ink)"> Una carta por día (fechas seguidas en la cola)</label>
+          </div>
+          <div id="textBox" hidden>
+            <label for="thirdText">Texto de la tercera línea</label>
+            <input type="text" id="thirdText" maxlength="40" placeholder="Por ejemplo: escucha con calma">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Composición</h2>
+        <div class="sliderhead"><label for="scale" style="margin:0">Tamaño de la carta</label><output id="scaleOut"></output></div>
+        <input type="range" id="scale" min="50" max="160" step="1">
+        <div class="row" style="margin-top:6px"><button class="btn" id="fillW" type="button">Llenar el ancho</button></div>
+        <p class="hint">Por encima de 100 % la carta se amplía y se recortan sus bordes. "Llenar el ancho" ajusta la carta de lado a lado. Con "Solo la carta" queda justo del tamaño del perfil.</p>
+        <div class="sliderhead"><label for="offY" style="margin:12px 0 0">Subir o bajar la carta</label><output id="offYOut"></output></div>
+        <input type="range" id="offY" min="-600" max="600" step="5">
+        <div id="textSliders">
+          <div class="sliderhead"><label for="textY" style="margin:12px 0 0">Altura del título</label><output id="textYOut"></output></div>
+          <input type="range" id="textY" min="285" max="900" step="5">
+          <div class="sliderhead"><label for="textScale" style="margin:12px 0 0">Tamaño del texto</label><output id="textScaleOut"></output></div>
+          <input type="range" id="textScale" min="80" max="130" step="1">
+          <p class="hint">En el perfil las portadas se ven pequeñas. Si el texto no se lee en la vista Perfil, auméntalo.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Fondo y detalles</h2>
+        <div class="lab" style="margin-top:0">Fondo alrededor de la carta</div>
+        <div class="chips" id="bgChips" role="group" aria-label="Fondo">
+          <button class="chip" data-bg="blur" aria-pressed="true">Difuminado de la carta</button>
+          <button class="chip" data-bg="solid" aria-pressed="false">Color liso</button>
+        </div>
+        <div id="colorBox" hidden>
+          <label for="bgColor">Color del fondo</label>
+          <input type="color" id="bgColor" value="#f3e9d2">
+        </div>
+        <label class="lab" style="display:flex;align-items:center;gap:10px;font-weight:600;min-height:44px"><input type="checkbox" id="frame" style="width:22px;height:22px;accent-color:var(--ink)"> Marco fino del color de la baraja alrededor de la carta</label>
+        <details>
+          <summary>Logo de Dharma Eterno (opcional)</summary>
+          <div class="fileline" style="margin-top:6px">
+            <label class="filebtn">Subir logo<input type="file" id="logoFile" accept="image/*"></label>
+            <button class="btn ghost" id="logoClear" hidden>Quitar logo</button>
+          </div>
+          <p class="hint">Se coloca pequeño encima de la frase, dentro del recuadro del título.</p>
+        </details>
+      </div>
+
+      <div class="panel">
+        <h2>Listo</h2>
+        <button class="btn primary" id="download">Descargar portada 1080×1920</button>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" id="addGrid">Añadir al perfil de prueba</button>
+          <button class="btn ghost" id="clearGrid">Vaciar perfil de prueba</button>
+        </div>
+        <p class="msg" id="msg" role="status"></p>
+        <div class="fallback" id="fallback" hidden>
+          <p class="hint"><b>Guárdala a mano:</b> mantén pulsada la imagen y elige Guardar en Fotos, o clic derecho y Guardar imagen.</p>
+          <img id="fallbackImg" alt="Portada lista para guardar">
+        </div>
+        <p class="hint">Al subir el Reel a Instagram, en Editar portada elige Subir desde el carrete y revisa la pestaña de cuadrícula del perfil.</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  var W=1080,H=1920;
+  var FD='Marcellus,"Times New Roman",serif', FB='"Albert Sans",system-ui,sans-serif';
+  var DECKS=['Atman · Oráculo de Luz','Oráculo de Sabios','Oráculo de Egipto','Espíritus de la Tierra','Oráculo Lunar','Oráculo de los Dioses de la India'];
+  var LABELS=['Tu mensaje de hoy','Una carta para ti hoy','El oráculo de hoy…','Carta del día','Lo que necesitas escuchar hoy'];
+  var $=function(s){return document.querySelector(s)};
+  var ACCENTS={
+    'Atman · Oráculo de Luz':{line:'#c9a24a',text:'#8a5f10'},
+    'Oráculo de Sabios':{line:'#5b50b0',text:'#3b3290'},
+    'Oráculo de Egipto':{line:'#1fa3a0',text:'#0b6b6a'},
+    'Espíritus de la Tierra':{line:'#6f8f3a',text:'#3f5a1c'},
+    'Oráculo Lunar':{line:'#8e86b8',text:'#5a4f94'},
+    'Oráculo de los Dioses de la India':{line:'#b0384a',text:'#861f30'}
+  };
+  var userAcc={};
+  try{userAcc=JSON.parse(localStorage.getItem('portadas-oraculo-acentos')||'{}')||{}}catch(e){userAcc={}}
+  function saveAcc(){try{localStorage.setItem('portadas-oraculo-acentos',JSON.stringify(userAcc))}catch(e){}}
+  function darken(hex,k){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;function f(v){return Math.round(v*(1-k))}return '#'+[f(r),f(g),f(b)].map(function(v){return v.toString(16).padStart(2,'0')}).join('')}
+  function rgba(hex,a){var n=parseInt(hex.slice(1),16);return 'rgba('+(n>>16)+','+((n>>8)&255)+','+(n&255)+','+a+')'}
+  function accentFor(deck){return userAcc[deck]||ACCENTS[deck]||ACCENTS['Atman · Oráculo de Luz']}
+  function todayISO(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+  var S={
+    deck:DECKS[2], label:LABELS[0], mode:'stack', third:'text', thirdPos:'bottom', pillLow:false, thirdText:'Tu mensaje de hoy', date:todayISO(), consec:false,
+    scale:100, offY:0, textY:300, textScale:100, bg:'blur', bgColor:'#f3e9d2', frame:true,
+    cards:[], idx:0, logo:null, grid:[], view:'full', zones:false
+  };
+  try{
+    var saved=JSON.parse(localStorage.getItem('portadas-oraculo')||'null');
+    if(saved){['deck','label','mode','third','thirdText','textScale','bg','bgColor','frame','textY','pillLow'].forEach(function(k){if(saved[k]!==undefined)S[k]=saved[k]});if(S.third==='date'){S.third='text';if(!S.thirdText)S.thirdText='Tu mensaje de hoy'}}
+  }catch(e){}
+  function persist(){try{var o={};['deck','label','mode','third','thirdText','textScale','bg','bgColor','frame','textY','pillLow'].forEach(function(k){o[k]=S[k]});localStorage.setItem('portadas-oraculo',JSON.stringify(o))}catch(e){}}
+
+  var out=document.createElement('canvas');out.width=W;out.height=H;
+  var c=out.getContext('2d');
+  var cvFull=$('#cvFull'),fctx=cvFull.getContext('2d');
+  var cvFeed=$('#cvFeed'),feedCtx=cvFeed.getContext('2d');
+  var tileCv=document.createElement('canvas');tileCv.width=360;tileCv.height=480;var tctx=tileCv.getContext('2d');
+
+  /* ---------- carta de ejemplo ---------- */
+  function makeExample(){
+    var e=document.createElement('canvas');e.width=720;e.height=1280;var x=e.getContext('2d');
+    var g=x.createLinearGradient(0,0,0,1280);g.addColorStop(0,'#2b2160');g.addColorStop(.55,'#59408a');g.addColorStop(1,'#d89c4c');
+    x.fillStyle=g;x.fillRect(0,0,720,1280);
+    x.save();x.translate(360,500);
+    for(var i=0;i<16;i++){x.rotate(Math.PI/8);x.fillStyle='rgba(255,226,150,.22)';x.beginPath();x.ellipse(0,-150,48,130,0,0,Math.PI*2);x.fill();x.strokeStyle='rgba(255,226,150,.7)';x.lineWidth=3;x.stroke()}
+    x.restore();
+    for(var j=1;j<=7;j++){x.strokeStyle='rgba(255,230,160,'+(0.95-j*0.1)+')';x.lineWidth=3;x.beginPath();x.arc(360,500,40+j*40,0,Math.PI*2);x.stroke()}
+    var rg=x.createRadialGradient(360,500,0,360,500,60);rg.addColorStop(0,'#fff3c8');rg.addColorStop(1,'#e0a840');x.fillStyle=rg;x.beginPath();x.arc(360,500,56,0,Math.PI*2);x.fill();
+    x.textAlign='center';x.fillStyle='#fff8e6';x.font='44px '+FD;x.fillText('CARTA DE EJEMPLO',360,930);
+    x.font='600 30px '+FB;x.fillStyle='rgba(255,248,230,.85)';x.fillText('Sube la tuya en "Tus cartas"',360,990);
+    x.strokeStyle='#e8c46a';x.lineWidth=12;x.strokeRect(14,14,692,1252);
+    return e;
+  }
+
+  /* ---------- utilidades de dibujo ---------- */
+  function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+  function wrap(text,maxW){
+    var words=text.split(/\s+/),lines=[],cur='';
+    for(var i=0;i<words.length;i++){
+      var t=cur?cur+' '+words[i]:words[i];
+      if(c.measureText(t).width<=maxW||!cur){cur=t}else{lines.push(cur);cur=words[i]}
+    }
+    if(cur)lines.push(cur);return lines;
+  }
+  function coverDraw(ctx,src,sw,sh,tw,th){
+    var s=Math.max(tw/sw,th/sh),dw=sw*s,dh=sh*s;
+    ctx.drawImage(src,(tw-dw)/2,(th-dh)/2,dw,dh);
+  }
+  function dateText(i){
+    var d=new Date(S.date+'T12:00:00');
+    if(isNaN(d.getTime()))return '';
+    if(S.consec)d.setDate(d.getDate()+i);
+    return d.toLocaleDateString('es-ES',{day:'numeric',month:'long'});
+  }
+  function thirdLine(){
+    if(S.third==='date')return dateText(S.idx);
+    if(S.third==='text')return S.thirdText.trim();
+    return '';
+  }
+
+  /* ---------- medir y dibujar el recuadro del título ---------- */
+  var PW=920,INNER=800;
+  function measurePanel(){
+    var ts=S.textScale/100,label=(S.label||'').trim().toUpperCase(),size=0,lines=[];
+    if(label){
+      for(var s=Math.round(84*ts);s>=Math.round(60*ts);s-=2){c.font=s+'px '+FD;if(c.measureText(label).width<=INNER){size=s;lines=[label];break}}
+      if(!size){
+        for(var s2=Math.round(72*ts);s2>=Math.round(44*ts);s2-=2){c.font=s2+'px '+FD;var l=wrap(label,INNER);if(l.length<=2){size=s2;lines=l;break}}
+        if(!size){size=Math.round(44*ts);c.font=size+'px '+FD;lines=wrap(label,INNER).slice(0,2)}
+      }
+    }
+    var lineH=Math.round(size*1.12);
+    var deck=(S.deck||'').trim(),dsize=0;
+    if(deck){dsize=Math.round(30*ts);for(var d=Math.round(54*ts);d>=Math.round(30*ts);d-=2){c.font=d+'px '+FD;if(c.measureText(deck).width<=INNER){dsize=d;break}}}
+    var third=S.thirdPos==='bottom'?'':thirdLine(),tsize=third?Math.round(40*ts):0;
+    var logoH=S.logo?Math.round(70*Math.min(ts,1.1)):0;
+    var h=44+(logoH?logoH+14:0)+lines.length*lineH+(lines.length&&deck?8+24:0)+(deck?Math.round(dsize*1.2):0)+(third?6+Math.round(tsize*1.3):0)+40;
+    return {label:lines,size:size,lineH:lineH,deck:deck,dsize:dsize,third:third,tsize:tsize,logoH:logoH,h:h};
+  }
+  function drawPanel(m,top){
+    var x=(W-PW)/2;
+    c.save();c.shadowColor='rgba(40,25,80,.30)';c.shadowBlur=36;c.shadowOffsetY=10;
+    rr(c,x,top,PW,m.h,44);c.fillStyle='rgba(255,252,243,.95)';c.fill();c.restore();
+    rr(c,x,top,PW,m.h,44);c.lineWidth=5;c.strokeStyle=accentFor(S.deck).line;c.stroke();
+    rr(c,x+14,top+14,PW-28,m.h-28,32);c.lineWidth=2;c.strokeStyle=rgba(accentFor(S.deck).line,.55);c.stroke();
+    var y=top+44;c.textAlign='center';c.textBaseline='top';
+    if(m.logoH){var lw=S.logo.naturalWidth*(m.logoH/S.logo.naturalHeight);c.drawImage(S.logo,(W-lw)/2,y,lw,m.logoH);y+=m.logoH+14}
+    c.fillStyle='#2a2150';c.font=m.size+'px '+FD;
+    m.label.forEach(function(t){c.fillText(t,W/2,y);y+=m.lineH});
+    if(m.label.length&&m.deck){
+      y+=8;var oy=y+10;
+      c.strokeStyle=accentFor(S.deck).line;c.lineWidth=3;
+      c.beginPath();c.moveTo(W/2-200,oy);c.lineTo(W/2-26,oy);c.moveTo(W/2+26,oy);c.lineTo(W/2+200,oy);c.stroke();
+      c.fillStyle=accentFor(S.deck).line;c.beginPath();c.moveTo(W/2,oy-11);c.lineTo(W/2+11,oy);c.lineTo(W/2,oy+11);c.lineTo(W/2-11,oy);c.closePath();c.fill();
+      y+=24;
+    }
+    if(m.deck){c.fillStyle=accentFor(S.deck).text;c.font=m.dsize+'px '+FD;c.fillText(m.deck,W/2,y);y+=Math.round(m.dsize*1.2)}
+    if(m.third){y+=6;c.fillStyle='#554c7d';c.font='600 '+m.tsize+'px '+FB;c.fillText(m.third,W/2,y)}
+  }
+
+  /* ---------- recuadro de la fecha, abajo ---------- */
+  function measurePill(){
+    var t=thirdLine();if(!t)return null;
+    var ts=S.textScale/100,size=Math.round(72*ts);
+    c.font=size+'px '+FD;
+    var tw=c.measureText(t).width;
+    while(tw+120>PW&&size>34){size-=2;c.font=size+'px '+FD;tw=c.measureText(t).width}
+    return {text:t,size:size,w:Math.round(tw+120),h:Math.round(size+52)};
+  }
+  function drawPill(p,top){
+    var x=(W-p.w)/2,r=p.h/2,A=accentFor(S.deck);
+    c.save();c.shadowColor='rgba(40,25,80,.30)';c.shadowBlur=30;c.shadowOffsetY=8;
+    rr(c,x,top,p.w,p.h,r);c.fillStyle=A.text;c.fill();c.restore();
+    rr(c,x,top,p.w,p.h,r);c.lineWidth=5;c.strokeStyle=A.line;c.stroke();
+    rr(c,x+10,top+10,p.w-20,p.h-20,r-10);c.lineWidth=2;c.strokeStyle=rgba('#fff8e6',.55);c.stroke();
+    c.textAlign='center';c.textBaseline='middle';c.fillStyle='#fff8e6';c.font=p.size+'px '+FD;
+    c.fillText(p.text,W/2,top+p.h/2+2);
+  }
+
+  /* ---------- composición principal ---------- */
+  var lastPanel=null;
+  function compose(){
+    var card=S.cards[S.idx];if(!card)return;
+    var src=card.src,iw=card.w,ih=card.h;
+    // fondo
+    if(S.bg==='solid'){c.fillStyle=S.bgColor;c.fillRect(0,0,W,H)}
+    else{
+      var t=document.createElement('canvas');t.width=12;t.height=22;var tc=t.getContext('2d');tc.imageSmoothingQuality='high';coverDraw(tc,src,iw,ih,12,22);
+      var m2=document.createElement('canvas');m2.width=60;m2.height=107;var mc=m2.getContext('2d');mc.imageSmoothingEnabled=true;mc.imageSmoothingQuality='high';mc.drawImage(t,0,0,60,107);
+      c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(m2,0,0,W,H);
+      c.fillStyle='rgba(255,250,238,.10)';c.fillRect(0,0,W,H);
+    }
+    var hasTitle=S.mode!=='only',m=hasTitle?measurePanel():null,region;
+    var pill=(hasTitle&&S.thirdPos==='bottom')?measurePill():null;var pillTop=pill?(S.pillLow?1705:1615-pill.h):0;
+    if(S.mode==='stack')region={top:S.textY+m.h+36,bottom:(pill&&!S.pillLow)?pillTop-28:1640,maxW:960};
+    else if(S.mode==='overlay')region={top:0,bottom:H,maxW:W};
+    else region={top:285,bottom:1635,maxW:W};
+    var rh=Math.max(200,region.bottom-region.top);
+    var base=Math.min(region.maxW/iw,rh/ih);S.baseR=base;S.curW=iw;var r=base*(S.scale/100);
+    var dw=iw*r,dh=ih*r,x=(W-dw)/2,y=region.top+(rh-dh)/2+S.offY;
+    var reduced=dw<W-2||dh<H-2;
+    c.save();
+    if(reduced){c.shadowColor='rgba(20,10,50,.40)';c.shadowBlur=44;c.shadowOffsetY=14}
+    c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
+    c.drawImage(src,x,y,dw,dh);
+    c.restore();
+    if(S.frame&&reduced){
+      c.lineWidth=6;c.strokeStyle=accentFor(S.deck).line;c.strokeRect(x-3,y-3,dw+6,dh+6);
+      c.lineWidth=2;c.strokeStyle='rgba(255,248,230,.9)';c.strokeRect(x-9,y-9,dw+18,dh+18);
+    }
+    lastPanel=null;
+    if(hasTitle){drawPanel(m,S.textY);lastPanel={top:S.textY,bottom:S.textY+m.h};if(pill)drawPill(pill,pillTop)}
+  }
+
+  /* ---------- vistas ---------- */
+  function drawZones(ctx,k){
+    ctx.save();
+    ctx.fillStyle='rgba(190,40,40,.32)';ctx.fillRect(0,0,W*k,240*k);ctx.fillRect(0,1680*k,W*k,240*k);
+    ctx.fillStyle='rgba(235,150,30,.30)';ctx.fillRect(0,240*k,W*k,45*k);ctx.fillRect(0,1635*k,W*k,45*k);
+    ctx.strokeStyle='#127a45';ctx.lineWidth=3;ctx.setLineDash([10,6]);ctx.strokeRect(40*k,285*k,(W-80)*k,(1250-285)*k);
+    ctx.setLineDash([]);ctx.font='700 14px '+FB;ctx.textAlign='center';ctx.lineWidth=4;
+    function lab(t,yy){ctx.strokeStyle='rgba(255,255,255,.95)';ctx.strokeText(t,W*k/2,yy);ctx.fillStyle='#3a1010';ctx.fillText(t,W*k/2,yy)}
+    lab('Se pierde en el perfil',130*k);lab('Se pierde en el perfil',1900*k);
+    ctx.fillStyle='#0d5c33';ctx.strokeStyle='rgba(255,255,255,.95)';
+    ctx.strokeText('Zona segura del título',W*k/2,(285+34)*k);ctx.fillText('Zona segura del título',W*k/2,(285+34)*k);
+    ctx.restore();
+  }
+  function paintViews(){
+    fctx.clearRect(0,0,540,960);fctx.imageSmoothingQuality='high';fctx.drawImage(out,0,0,540,960);
+    if(S.zones)drawZones(fctx,.5);
+    tctx.imageSmoothingQuality='high';tctx.drawImage(out,0,240,1080,1440,0,0,360,480);
+    feedCtx.imageSmoothingQuality='high';feedCtx.drawImage(out,0,285,1080,1350,0,0,540,675);
+  }
+  function setView(v){
+    S.view=v;
+    document.querySelectorAll('.tab').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.view===v?'true':'false')});
+    $('#stageFull').hidden=v!=='full';$('#stageGrid').hidden=v!=='grid';$('#stageFeed').hidden=v!=='feed';
+    $('#viewHint').textContent=v==='full'?'Así se ve tu portada completa. Las franjas rojas se recortan en la cuadrícula del perfil.':v==='grid'?'Así se verá en tu perfil de Instagram (recorte 3:4). Comprueba que el título se lee en pequeño.':'Así se ve en el feed (recorte 4:5).';
+  }
+  function buildGrid(){
+    var g=$('#gridBox');g.textContent='';
+    var total=Math.min(9,Math.max(6,Math.ceil((1+S.grid.length)/3)*3));
+    for(var i=0;i<total;i++){
+      var t=document.createElement('div');t.className='tile';
+      if(i===0){t.appendChild(tileCv)}
+      else if(S.grid[i-1]){var im=new Image();im.src=S.grid[i-1];im.alt='Portada guardada en el perfil de prueba';t.appendChild(im)}
+      else{t.classList.add('empty');t.textContent=i===1?'próxima':''}
+      g.appendChild(t);
+    }
+  }
+
+  /* ---------- estado y controles ---------- */
+  function updateStatus(){
+    var st=$('#status');
+    if(!lastPanel){st.className='status ok';$('#statusIcon').textContent='✓';$('#statusText').textContent='Sin título. La carta queda dentro del recorte del perfil.';return}
+    var ok=lastPanel.top>=285&&lastPanel.bottom<=1250;
+    st.className='status '+(ok?'ok':'warn');
+    $('#statusIcon').textContent=ok?'✓':'!';
+    $('#statusText').textContent=ok?'El título está dentro de la zona segura.':(lastPanel.top<285?'El título queda demasiado arriba. Bájalo con "Altura del título".':'El título queda demasiado abajo. Súbelo con "Altura del título".');
+  }
+  function syncOutputs(){
+    $('#scaleOut').textContent=S.scale+' %';
+    $('#offYOut').textContent=(S.offY>0?'+':'')+S.offY+' px';
+    $('#textYOut').textContent=S.textY+' px';
+    $('#textScaleOut').textContent=S.textScale+' %';
+  }
+  var raf=0;
+  function render(){
+    if(raf)return;
+    raf=requestAnimationFrame(function(){
+      raf=0;var ac=$('#accent');if(ac&&document.activeElement!==ac)ac.value=accentFor(S.deck).line;compose();paintViews();updateStatus();syncOutputs();
+    });
+  }
+  function chipsFrom(list,box,input,key){
+    box.textContent='';
+    list.forEach(function(t){
+      var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=t;
+      b.addEventListener('click',function(){S[key]=t;input.value=t;mark();persist();render()});
+      box.appendChild(b);
+    });
+    function mark(){Array.prototype.forEach.call(box.children,function(b){b.setAttribute('aria-pressed',b.textContent===S[key]?'true':'false')})}
+    mark();
+    input.addEventListener('input',function(){S[key]=input.value;mark();persist();render()});
+  }
+
+  function msg(t){$('#msg').textContent=t}
+  function loadImg(url){return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im)};im.onerror=function(){rej(new Error('img'))};im.src=url})}
+
+  function renderQueue(){
+    var q=$('#queue');q.textContent='';
+    S.cards.forEach(function(card,i){
+      var b=document.createElement('button');b.type='button';b.className='thumb';b.setAttribute('aria-pressed',i===S.idx?'true':'false');
+      b.setAttribute('aria-label','Carta '+(i+1)+(card.example?' (ejemplo)':': '+card.name));
+      var im=document.createElement('img');im.src=card.thumb;im.alt='';b.appendChild(im);
+      b.addEventListener('click',function(){S.idx=i;renderQueue();render()});
+      if(!card.example){
+        var x=document.createElement('span');x.className='xbtn';x.setAttribute('role','button');x.setAttribute('aria-label','Quitar esta carta');x.textContent='×';
+        x.addEventListener('click',function(ev){ev.stopPropagation();removeCard(i)});
+        b.appendChild(x);
+      }
+      q.appendChild(b);
+    });
+    var any=S.cards.length>0&&!S.cards[0].example;
+    $('#queueHint').textContent=any?(S.cards.length+(S.cards.length===1?' carta cargada.':' cartas cargadas. Toca una para ajustarla y descargarla.')):'Ahora ves una carta de ejemplo. Sube las tuyas para empezar.';
+    $('#consecRow').hidden=!(any&&S.cards.length>1);
+  }
+  function addExample(){
+    var ex=makeExample();
+    S.cards=[{name:'Ejemplo',src:ex,w:ex.width,h:ex.height,thumb:ex.toDataURL('image/jpeg',.7),example:true}];S.idx=0;
+  }
+  function removeCard(i){
+    S.cards.splice(i,1);
+    if(!S.cards.length)addExample();
+    S.idx=Math.min(S.idx,S.cards.length-1);renderQueue();render();
+  }
+  async function addFiles(files){
+    var list=Array.prototype.filter.call(files,function(f){return f.type.indexOf('image/')===0});
+    if(!list.length){msg('Elige archivos de imagen (PNG, JPG o WebP).');return}
+    var hadExample=S.cards.length&&S.cards[0].example,added=[],failed=0;
+    for(var i=0;i<list.length;i++){
+      try{var url=URL.createObjectURL(list[i]);var im=await loadImg(url);added.push({name:list[i].name,src:im,w:im.naturalWidth,h:im.naturalHeight,thumb:url})}
+      catch(e){failed++}
+    }
+    if(!added.length){msg('No se pudo abrir la imagen. Prueba con PNG o JPG.');return}
+    if(hadExample)S.cards=[];
+    var first=S.cards.length;S.cards=S.cards.concat(added);S.idx=first;
+    msg(failed?failed+' archivo(s) no se pudieron abrir.':'');
+    renderQueue();render();
+  }
+
+  var dlCap;
+  async function getDl(){
+    if(dlCap!==undefined)return dlCap;
+    try{dlCap=(window.claude&&window.claude.use)?await window.claude.use('downloads'):null}catch(e){dlCap=null}
+    return dlCap;
+  }
+  function slug(s){return (s||'oraculo').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||'oraculo'}
+  function showFallback(){
+    $('#fallbackImg').src=out.toDataURL('image/png');$('#fallback').hidden=false;
+    $('#fallback').scrollIntoView({block:'nearest'});
+  }
+  async function download(){
+    compose();
+    var blob=await new Promise(function(r){out.toBlob(r,'image/png')});
+    var iso=S.date;try{if(S.consec){var d=new Date(S.date+'T12:00:00');d.setDate(d.getDate()+S.idx);iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}}catch(e){}
+    var name='portada_'+slug(S.deck)+'_'+iso+(S.cards.length>1?'_'+(S.idx+1):'')+'.png';
+    var dl=await getDl();
+    if(!blob){msg('No se pudo generar la imagen.');return}
+    if(!dl){showFallback();msg('Aquí no hay descarga directa. Guarda la imagen de abajo.');return}
+    try{await dl.save({filename:name,data:blob});msg('Portada guardada: '+name)}
+    catch(e){
+      if(e&&e.code==='declined'){msg('Descarga cancelada.')}
+      else if(e&&e.code==='rate_limited'){msg('Espera un momento y vuelve a pulsar Descargar.')}
+      else{showFallback();msg('No se pudo guardar directamente. Guarda la imagen de abajo.')}
+    }
+  }
+  function addToGrid(){
+    var t=document.createElement('canvas');t.width=270;t.height=360;
+    var tc=t.getContext('2d');tc.imageSmoothingQuality='high';tc.drawImage(out,0,240,1080,1440,0,0,270,360);
+    S.grid.unshift(t.toDataURL('image/jpeg',.85));S.grid=S.grid.slice(0,8);
+    buildGrid();setView('grid');msg('Añadida. En la vista Perfil ves cómo queda junto a las otras portadas.');
+  }
+
+  /* ---------- enlazar controles ---------- */
+  function setMode(m){
+    S.mode=m;
+    if(m==='stack'){S.textY=Math.min(S.textY,700)}
+    document.querySelectorAll('#modeChips .chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mode===m?'true':'false')});
+    $('#titleFields').hidden=m==='only';$('#textSliders').hidden=m==='only';
+    $('#textY').value=S.textY;persist();render();
+  }
+  function setThird(t){
+    S.third=t;
+    document.querySelectorAll('#thirdChips .chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.third===t?'true':'false')});
+    $('#dateBox').hidden=t!=='date';$('#textBox').hidden=t!=='text';persist();render();
+  }
+  function setBg(b){
+    S.bg=b;
+    document.querySelectorAll('#bgChips .chip').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.bg===b?'true':'false')});
+    $('#colorBox').hidden=b!=='solid';persist();render();
+  }
+  function slider(id,key){
+    var el=$('#'+id);el.value=S[key];
+    el.addEventListener('input',function(){S[key]=Number(el.value);if(key==='textScale'||key==='textY')persist();render()});
+  }
+
+  document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){setView(b.dataset.view);paintViews()})});
+  document.querySelectorAll('#modeChips .chip').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)})});
+  document.querySelectorAll('#thirdChips .chip').forEach(function(b){b.addEventListener('click',function(){setThird(b.dataset.third)})});
+  document.querySelectorAll('#bgChips .chip').forEach(function(b){b.addEventListener('click',function(){setBg(b.dataset.bg)})});
+  $('#zones').addEventListener('change',function(e){S.zones=e.target.checked;render()});
+  $('#fillW').addEventListener('click',function(){
+    if(!S.baseR){return}
+    var v=Math.round(W/(S.curW*S.baseR)*100);
+    S.scale=Math.max(50,Math.min(160,v));$('#scale').value=S.scale;render();
+  });
+  $('#files').addEventListener('change',function(e){addFiles(e.target.files);e.target.value=''});
+  $('#accent').addEventListener('input',function(e){var v=e.target.value;userAcc[S.deck]={line:v,text:darken(v,.45)};saveAcc();render()});
+  $('#accentReset').addEventListener('click',function(){delete userAcc[S.deck];saveAcc();render()});
+  document.querySelectorAll('#posChips .chip').forEach(function(b){b.addEventListener('click',function(){
+    S.thirdPos=b.dataset.pos;
+    document.querySelectorAll('#posChips .chip').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.pos===S.thirdPos?'true':'false')});
+    render();
+  })});
+  function markLow(){document.querySelectorAll('#lowChips .chip').forEach(function(x){x.setAttribute('aria-pressed',(x.dataset.low==='1')===!!S.pillLow?'true':'false')})}
+  document.querySelectorAll('#lowChips .chip').forEach(function(b){b.addEventListener('click',function(){S.pillLow=b.dataset.low==='1';markLow();persist();render()})});
+  markLow();
+  $('#date').value=S.date;
+  $('#date').addEventListener('input',function(e){if(e.target.value){S.date=e.target.value;render()}});
+  $('#consec').addEventListener('change',function(e){S.consec=e.target.checked;render()});
+  $('#thirdText').value=S.thirdText;
+  $('#thirdText').addEventListener('input',function(e){S.thirdText=e.target.value;persist();render()});
+  $('#bgColor').value=S.bgColor;
+  $('#bgColor').addEventListener('input',function(e){S.bgColor=e.target.value;persist();render()});
+  $('#frame').checked=S.frame;
+  $('#frame').addEventListener('change',function(e){S.frame=e.target.checked;persist();render()});
+  $('#logoFile').addEventListener('change',async function(e){
+    var f=e.target.files[0];e.target.value='';if(!f)return;
+    try{S.logo=await loadImg(URL.createObjectURL(f));$('#logoClear').hidden=false;render()}catch(err){msg('No se pudo abrir el logo.')}
+  });
+  $('#logoClear').addEventListener('click',function(){S.logo=null;$('#logoClear').hidden=true;render()});
+  $('#download').addEventListener('click',download);
+  $('#addGrid').addEventListener('click',addToGrid);
+  $('#clearGrid').addEventListener('click',function(){S.grid=[];buildGrid();msg('Perfil de prueba vacío.')});
+
+  chipsFrom(LABELS,$('#labelChips'),$('#label'),'label');$('#label').value=S.label;
+  chipsFrom(DECKS,$('#deckChips'),$('#deck'),'deck');$('#deck').value=S.deck;
+  slider('scale','scale');slider('offY','offY');slider('textY','textY');slider('textScale','textScale');
+
+  /* ---------- arranque ---------- */
+  addExample();renderQueue();buildGrid();setView('full');setMode(S.mode);setThird(S.third);setBg(S.bg);
+  var fontsReady=Promise.all([document.fonts.load('80px Marcellus'),document.fonts.load('600 40px "Albert Sans"')]).catch(function(){});
+  compose();paintViews();updateStatus();syncOutputs();
+  fontsReady.then(function(){render()});
+})();
+</script>
